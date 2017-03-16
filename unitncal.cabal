@@ -1,0 +1,35 @@
+name:                unitncal
+version:             0.1.0.0
+synopsis:            unitn iCal scraper
+-- description:         
+homepage:            http://unitncal.fgaz.me/
+license:             BSD3
+license-file:        LICENSE
+author:              Francesco Gazzetta
+maintainer:          francygazz@gmail.com
+-- copyright:           
+category:            Data
+build-type:          Simple
+extra-source-files:  ChangeLog.md
+cabal-version:       >=1.10
+
+executable unitncal
+  main-is:             Main.hs
+  -- other-modules:       
+  other-extensions:    OverloadedStrings
+  build-depends:       base >=4.9 && <4.10
+                     , containers >=0.5 && <0.6
+                     , http-conduit >=2.2 && <2.3
+                     , aeson >=1.1 && <1.2
+                     , lucid >=2.9 && <2.10
+                     , tagsoup >=0.14 && <0.15
+                     , text >=1.2 && <1.3
+                     , bytestring >=0.10 && <0.11
+                     , time >=1.6 && <1.7
+                     , servant-server >=0.10 && <0.11
+                     , warp >=3.2 && <3.3
+                     , mtl >=2.2 && <2.3
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -O2 -Wall
+
