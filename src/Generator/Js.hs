@@ -3,7 +3,7 @@
 module Generator.Js where
 
 import Types
-import Data.Map
+import Data.Map.Strict
 import Data.Text (Text, pack)
 import Data.Aeson
 import GHC.Generics (Generic)
