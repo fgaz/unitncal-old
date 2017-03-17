@@ -9,6 +9,7 @@ import Data.Either (rights)
 import Prelude as P hiding (lookup)
 import Data.Maybe (fromMaybe)
 import qualified Generator.Js as Js
+import qualified Generator.Html as Html
 import Data.ByteString.Lazy (ByteString)
 
 
@@ -47,7 +48,7 @@ makeNewServable = do
   let courseKeys = (,) <$> keys courseNames <*> [1..5]
   courseData <- rights <$> mapM getCourse courseKeys --TODO merge dbs and log errors
   let js = Js.jsonToJs $ Js.mkJs courseNames courseKeys courseData
-  let html = undefined --TODO TODO TODO
+  let html = Html.mkHtml courseNames
   let servable = mkServable courseKeys courseData js html --MAYBE avoid to pass js and html?
   return servable
 

@@ -1,6 +1,9 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE DataKinds #-}
 
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Server where
 
 import Servant
@@ -14,6 +17,16 @@ import Data.ByteString.Lazy (ByteString)
 
 import Types
 import ICal
+import Network.HTTP.Media ((//), (/:))
+
+--MAYBE use servant-lucid
+data RenderedHTML
+
+instance Accept RenderedHTML where
+    contentType _ = "text" // "html" /: ("charset", "utf-8")
+
+instance MimeRender RenderedHTML ByteString where
+    mimeRender _ = id
 
 unitncalApp :: IORef Servable -> Application
 unitncalApp ref = serve unitncalAPI' $ unitncalServer' ref
@@ -29,7 +42,7 @@ type UnitncalAPI' = UnitncalAPI :<|> Raw
 type UnitncalAPI = "course" :> Capture "courseId" CourseId :> Capture "year" Year :> Get '[PlainText] Text
               :<|> "multical" :> QueryParams "c" SubjectId :> Get '[PlainText] Text
               :<|> "data.js" :> Get '[OctetStream] ByteString
-              :<|> "index.html" :> Get '[OctetStream] ByteString
+              :<|> "index.html" :> Get '[RenderedHTML] ByteString
 
 unitncalServer' :: IORef Servable -> Server UnitncalAPI'
 unitncalServer' ref = unitncalServer ref
