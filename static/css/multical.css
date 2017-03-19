@@ -1,0 +1,33 @@
+#link{
+  width: 100%;
+  margin-top: 1em;
+  text-align: center;
+}
+
+#selects{
+  margin-top: 1em;
+}
+
+#buttons{
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#link{
+  margin-bottom: 2em;
+}
+
+#subject{
+  max-width: 100%;
+}
+
+#course{
+  max-width: 100%;
+}
+
+#year{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
