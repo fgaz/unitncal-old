@@ -43,6 +43,7 @@ type UnitncalAPI = "course" :> Capture "courseId" CourseId :> Capture "year" Yea
               :<|> "multical" :> QueryParams "c" SubjectId :> Get '[PlainText] Text
               :<|> "data.js" :> Get '[OctetStream] ByteString
               :<|> "index.html" :> Get '[RenderedHTML] ByteString
+              :<|> Get '[RenderedHTML] ByteString
 
 unitncalServer' :: IORef Servable -> Server UnitncalAPI'
 unitncalServer' ref = unitncalServer ref
@@ -52,6 +53,7 @@ unitncalServer :: IORef Servable -> Server UnitncalAPI
 unitncalServer ref = getCourse ref
                 :<|> multical ref
                 :<|> serveDirectly servableJs
+                :<|> serveDirectly servableHtml
                 :<|> serveDirectly servableHtml
   where serveDirectly f = f <$> liftIO (readIORef ref)
 
