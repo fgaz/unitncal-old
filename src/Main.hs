@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
 import Generator
@@ -10,6 +9,7 @@ import Control.Concurrent (forkIO, threadDelay)
 import Control.Monad
 import Data.Monoid
 import Types
+import qualified Config
 
 main :: IO ()
 main = do
@@ -18,10 +18,10 @@ main = do
   ref <- newIORef servable
   putStrLn "Done."
   putStrLn "Forking periodic scraper..."
-  _ <- forkIO $ every (60*60*1000000) $ updateServable ref
+  _ <- forkIO $ every Config.refreshInterval $ updateServable ref
   putStrLn "Done."
   putStrLn "Running server..."
-  runSettings (setPort 8080 $ setHost "127.0.0.1" defaultSettings) $ unitncalApp ref
+  runSettings (setPort Config.port $ setHost Config.host defaultSettings) $ unitncalApp ref
 
 every :: Int -> IO a -> IO b
 every n f = forever (void f <> threadDelay n)
