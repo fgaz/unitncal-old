@@ -18,7 +18,7 @@ main = do
   ref <- newIORef servable
   putStrLn "Done."
   putStrLn "Forking periodic scraper..."
-  _ <- forkIO $ every Config.refreshInterval $ updateServable ref
+  _ <- forkIO $ threadDelay Config.refreshInterval <> every Config.refreshInterval (updateServable ref)
   putStrLn "Done."
   putStrLn "Running server..."
   runSettings (setPort Config.port $ setHost Config.host defaultSettings) $ unitncalApp ref
