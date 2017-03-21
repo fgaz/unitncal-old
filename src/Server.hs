@@ -28,8 +28,8 @@ instance Accept RenderedHTML where
 instance MimeRender RenderedHTML ByteString where
     mimeRender _ = id
 
-unitncalApp :: IORef Servable -> Application
-unitncalApp ref = serve unitncalAPI' $ unitncalServer' ref
+unitncalApp :: FilePath -> IORef Servable -> Application
+unitncalApp staticDir ref = serve unitncalAPI' $ unitncalServer' staticDir ref
 
 unitncalAPI' :: Proxy UnitncalAPI'
 unitncalAPI' = Proxy
@@ -45,9 +45,9 @@ type UnitncalAPI = "course" :> Capture "courseId" CourseId :> Capture "year" Yea
               :<|> "index.html" :> Get '[RenderedHTML] ByteString
               :<|> Get '[RenderedHTML] ByteString
 
-unitncalServer' :: IORef Servable -> Server UnitncalAPI'
-unitncalServer' ref = unitncalServer ref
-                 :<|> serveDirectoryWebApp "static"
+unitncalServer' :: FilePath -> IORef Servable -> Server UnitncalAPI'
+unitncalServer' staticDir ref = unitncalServer ref
+                           :<|> serveDirectoryWebApp staticDir
 
 unitncalServer :: IORef Servable -> Server UnitncalAPI
 unitncalServer ref = getCourse ref

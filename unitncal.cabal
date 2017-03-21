@@ -12,6 +12,11 @@ category:            Data
 build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
+data-files:          static/css/*.css
+                   , static/js/*.js
+                   , static/*.html
+                   , static/screenshots/android/*.png
+                   , static/screenshots/ios/*.jpg
 
 executable unitncal
   main-is:             Main.hs

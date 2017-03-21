@@ -10,6 +10,8 @@ import Control.Monad
 import Data.Monoid
 import Types
 import qualified Config
+import Paths_unitncal
+
 
 main :: IO ()
 main = do
@@ -21,7 +23,9 @@ main = do
   _ <- forkIO $ threadDelay Config.refreshInterval <> every Config.refreshInterval (updateServable ref)
   putStrLn "Done."
   putStrLn "Running server..."
-  runSettings (setPort Config.port $ setHost Config.host defaultSettings) $ unitncalApp ref
+  dataDir <- getDataDir
+  let staticDir = dataDir <> "/static"
+  runSettings (setPort Config.port $ setHost Config.host defaultSettings) $ unitncalApp staticDir ref
 
 every :: Int -> IO a -> IO b
 every n f = forever (void f <> threadDelay n)
