@@ -1,7 +1,7 @@
 // Declaration
 var course, year, subject;
 var arrayidsubjects = [];
-var link = "http://unitncal.fgaz.me/multical", hl = "cal=";
+var link = "http://unitncal.fgaz.me/multical", hl = "c=";
 /*var data= // example of input data structure
 {
   "courses":{ //getCourseNames
