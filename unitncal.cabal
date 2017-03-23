@@ -1,14 +1,17 @@
 name:                unitncal
 version:             0.1.0.0
 synopsis:            unitn iCal scraper
--- description:         
+description:
+  This program downloads the calendar files used by unitn's "orari" webapp
+  and converts them from the custom format to standard iCal, which is then
+  easily imported in many calendar apps.
 homepage:            http://unitncal.fgaz.me/
 license:             BSD3
 license-file:        LICENSE
 author:              Francesco Gazzetta
 maintainer:          francygazz@gmail.com
--- copyright:           
-category:            Data
+copyright:           Copyright (C) 2017 Francesco Gazzetta
+category:            Data, Web
 build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
@@ -18,9 +21,22 @@ data-files:          static/css/*.css
                    , static/screenshots/android/*.png
                    , static/screenshots/ios/*.jpg
 
+source-repository head
+  type:     git
+  location: git://github.com/fgaz/unitncal.git
+
 executable unitncal
   main-is:             Main.hs
-  -- other-modules:       
+  other-modules:
+    Paths_unitncal
+    Types
+    Server
+    Config
+    Scraper
+    Generator
+    Generator.Js
+    Generator.Html
+    ICal
   other-extensions:    OverloadedStrings
   build-depends:       base >=4.9 && <4.10
                      , containers >=0.5 && <0.6
