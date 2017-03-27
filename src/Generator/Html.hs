@@ -64,6 +64,7 @@ header = header_ [role_ "banner"] $ do
       li_ $ a_ [href_ "/"] "Home"
       li_ $ a_ [href_ "/about.html"] "About"
       li_ $ a_ [href_ "/instructions.html"] "Istruzioni"
+      li_ $ a_ [href_ "/multical.html"] "Calendario personalizzato"
 
 footer :: Html ()
 footer = footer_ [role_ "contentinfo"] $ do
