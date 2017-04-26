@@ -20,7 +20,7 @@ main = do
   ref <- newIORef servable
   putStrLn "Done."
   putStrLn "Forking periodic scraper..."
-  _ <- forkIO $ threadDelay Config.refreshInterval <> every Config.refreshInterval (updateServable ref)
+  _ <- forkIO $ threadDelay Config.refreshInterval *> every Config.refreshInterval (updateServable ref)
   putStrLn "Done."
   putStrLn "Running server..."
   dataDir <- getDataDir
@@ -28,7 +28,7 @@ main = do
   runSettings (setPort Config.port $ setHost Config.host defaultSettings) $ unitncalApp staticDir ref
 
 every :: Int -> IO a -> IO b
-every n f = forever (void f <> threadDelay n)
+every n f = forever (f *> threadDelay n)
 
 mergeServables :: Servable -> Servable -> Servable
 mergeServables _ = id
