@@ -3,3 +3,9 @@
 ## 0.1.0.0  -- 2017-03-16
 
 * First haskell version. Rewritten from scratch.
+
+## 0.2.0.0  -- 2017-05-01
+
+* Delayed generation of the initial Servable.
+* The server now starts immediately
+
