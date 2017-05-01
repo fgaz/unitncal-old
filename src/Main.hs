@@ -34,8 +34,16 @@ mergeServables _ = id
 
 updateServable :: IORef Servable -> IO ()
 updateServable ref = do
-  newServable <- makeNewServable
-  oldServable <- readIORef ref
-  let servable = mergeServables oldServable newServable
-  writeIORef ref servable
+  newServable' <- makeNewServable
+  case newServable'
+    of Left err -> print err
+       Right newServable ->
+         do
+           oldServable <- readIORef ref
+           -- TODO we should get a [Either Error Servable]
+           -- (or more probably ([Error], Servable)),
+           -- log the errors and
+           -- actually merge the servables
+           let servable = mergeServables oldServable newServable
+           writeIORef ref servable
 

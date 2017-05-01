@@ -11,6 +11,7 @@ import Data.Maybe (fromMaybe)
 import qualified Generator.Js as Js
 import qualified Generator.Html as Html
 import Data.ByteString.Lazy (ByteString)
+import Network.HTTP.Simple (JSONException)
 
 
 toStandardEvent :: Map SubjectId Text -> Types.Event -> ICal.Event
@@ -41,14 +42,23 @@ mkServable courseKeys courseData js html = servable
     classes = foldMap mkClassCals coursesMap
     servable = Servable courses classes js html
 
+data GeneratorError = ScraperError ScraperError | CourseParsingError JSONException deriving Show
 
-makeNewServable :: IO Servable
+makeNewServable :: IO (Either GeneratorError Servable)
 makeNewServable = do
-  courseNames <- getCourseNames
-  let courseKeys = (,) <$> keys courseNames <*> [1..5]
-  courseData <- rights <$> mapM getCourse courseKeys --TODO merge dbs and log errors
-  let js = Js.jsonToJs $ Js.mkJs courseNames courseKeys courseData
-  let html = Html.mkHtml courseNames
-  let servable = mkServable courseKeys courseData js html --MAYBE avoid to pass js and html?
-  return servable
+  courseNames' <- getCourseNames
+  --TODO just use a monad/transformer and refactor this mess
+  case courseNames' of Left err -> return $ Left $ ScraperError err
+                       Right courseNames -> makeNewServable' courseNames
+  where
+    makeNewServable' :: Map CourseId Text -> IO (Either GeneratorError Servable)
+    makeNewServable' courseNames = do
+      let courseKeys = (,) <$> keys courseNames <*> [1..5]
+      courseData' <- traverse getCourse courseKeys --TODO merge dbs and log errors
+      return $ case sequenceA courseData' of Left err -> Left $ CourseParsingError err
+                                             Right courseData -> Right servable
+                                               where
+                                                 js = Js.jsonToJs $ Js.mkJs courseNames courseKeys courseData
+                                                 html = Html.mkHtml courseNames
+                                                 servable = mkServable courseKeys courseData js html --MAYBE avoid to pass js and html?
 
