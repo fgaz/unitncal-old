@@ -9,3 +9,8 @@
 * Delayed generation of the initial Servable.
 * The server now starts immediately
 
+## 0.2.1.0  -- 2017-05-01
+
+* error handling
+  * the server now won't crash
+

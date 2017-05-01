@@ -15,7 +15,7 @@ easily imported in many calendar apps.
 Simply use `cabal run` (`cabal install`, then `unitncal` also works, assuming
 that `~/.cabal/bin` is in your `PATH`).
 
-`unitncal` will do an initial scraping before starting the actual server.
+After starting the server, `unitncal` will periodically scrape the Orari page and populate the in-memory database.
 
 You can choose the default port, host, scraping url, scraping interval etc by editing Config.hs
 (sorry, no external config file for now)
