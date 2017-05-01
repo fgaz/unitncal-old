@@ -8,6 +8,7 @@ import           Data.Time.Format (ParseTime, parseTimeM, defaultTimeLocale)
 import           Text.Read (readMaybe)
 import           Data.Map.Strict
 import           Data.ByteString.Lazy (ByteString)
+import           Data.Default.Class
 
 type CourseId = Int
 type Year = Int
@@ -56,4 +57,10 @@ data Servable = Servable { servableCourses :: Map (CourseId,Year) Text
                          , servableClasses :: Map SubjectId Text
                          , servableJs :: ByteString
                          , servableHtml :: ByteString } deriving Show
+
+instance Default Servable where
+  def = Servable { servableCourses = empty
+                 , servableClasses = empty
+                 , servableJs = mempty
+                 , servableHtml = mempty }
 

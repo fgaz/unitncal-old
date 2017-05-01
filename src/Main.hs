@@ -8,6 +8,7 @@ import Data.IORef
 import Control.Concurrent (forkIO, threadDelay)
 import Control.Monad
 import Data.Monoid
+import Data.Default.Class
 import Types
 import qualified Config
 import Paths_unitncal
@@ -15,10 +16,8 @@ import Paths_unitncal
 
 main :: IO ()
 main = do
-  putStrLn "Scraping and generating initial servable..."
-  servable <- makeNewServable
-  ref <- newIORef servable
-  putStrLn "Done."
+  putStrLn "Scraping and generation of the initial servable is deferred."
+  ref <- newIORef def
   putStrLn "Forking periodic scraper..."
   _ <- forkIO $ threadDelay Config.refreshInterval *> every Config.refreshInterval (updateServable ref)
   putStrLn "Done."
