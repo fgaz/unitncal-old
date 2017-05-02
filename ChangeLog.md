@@ -14,3 +14,7 @@
 * error handling
   * the server now won't crash
 
+## 0.3.0.0  -- 2017-05-02
+
+* base path and absolute links
+

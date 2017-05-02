@@ -17,6 +17,11 @@ port = 8080
 host :: HostPreference
 host = "127.0.0.1"
 
+-- | The base path of the website, without the trailing slash
+-- es.: "//www.example.org/subdir"
+basePath :: Text
+basePath = "//unitncal.fgaz.me"
+
 courseListUrl :: String
 courseListUrl = "https://webapps.unitn.it/Orari/it/Web/Dipartimento"
 

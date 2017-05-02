@@ -8,6 +8,7 @@ import Data.ByteString.Lazy (ByteString)
 import Data.Text (Text, pack)
 import Data.Map.Strict
 import Types
+import Config (basePath)
 
 -- TODO is it worth the additional complexity to pre-render the html? is the performance gain significant?
 -- MAYBE just use servant-lucid
@@ -41,7 +42,7 @@ toEntry courseId description = li_ $ do
   span_ $ toHtml description
   ol_ $ mapM_ (uncurry mkUrl) $ zip [1..] ["Primo anno", "Secondo anno", "Terzo anno", "Quarto anno", "Quinto anno"]
   where mkUrl :: Year -> Text -> Html ()
-        mkUrl year name = li_ $ a_ [href_ ("course/" <> pack (show courseId) <> "/" <> pack (show year))] $ toHtml name
+        mkUrl year name = li_ $ a_ [href_ (basePath <> "/course/" <> pack (show courseId) <> "/" <> pack (show year))] $ toHtml name
 
 metas :: Html ()
 metas = do
@@ -52,19 +53,19 @@ metas = do
 
 assets :: Html ()
 assets = do
-  link_ [href_ "/css/normalize.css", rel_ "stylesheet", media_ "all"]
-  link_ [href_ "/css/main.css", rel_ "stylesheet", media_ "all"]
-  script_ [src_ "/js/expandlist.js", type_ "text/javascript", media_ "all"] (mempty :: Html ())
+  link_ [href_ (basePath <> "/css/normalize.css"), rel_ "stylesheet", media_ "all"]
+  link_ [href_ (basePath <> "/css/main.css"), rel_ "stylesheet", media_ "all"]
+  script_ [src_ (basePath <> "/js/expandlist.js"), type_ "text/javascript", media_ "all"] (mempty :: Html ())
 
 header :: Html ()
 header = header_ [role_ "banner"] $ do
   h1_ "Unitn iCal files"
   nav_ [role_ "navigation"] $
     ul_ $ do
-      li_ $ a_ [href_ "/"] "Home"
-      li_ $ a_ [href_ "/about.html"] "About"
-      li_ $ a_ [href_ "/instructions.html"] "Istruzioni"
-      li_ $ a_ [href_ "/multical.html"] "Calendario personalizzato"
+      li_ $ a_ [href_ (basePath <> "/")] "Home"
+      li_ $ a_ [href_ (basePath <> "/about.html")] "About"
+      li_ $ a_ [href_ (basePath <> "/instructions.html")] "Istruzioni"
+      li_ $ a_ [href_ (basePath <> "/multical.html")] "Calendario personalizzato"
 
 footer :: Html ()
 footer = footer_ [role_ "contentinfo"] $ do
