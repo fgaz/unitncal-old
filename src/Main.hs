@@ -29,7 +29,7 @@ main = do
 every :: Int -> IO a -> IO b
 every n f = forever (f *> threadDelay n)
 
-mergeServables zo:: Servable -> Servable -> Servable
+mergeServables :: Servable -> Servable -> Servable
 mergeServables _ = id
 
 updateServable :: IORef Servable -> IO ()
