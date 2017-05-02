@@ -16,6 +16,7 @@ import Data.Foldable as F
 import Data.ByteString.Lazy (ByteString)
 
 import Types
+import Types.Servable
 import ICal
 import Network.HTTP.Media ((//), (/:))
 

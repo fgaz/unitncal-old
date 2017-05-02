@@ -1,6 +1,7 @@
 module Generator where
 
 import Types
+import Types.Servable
 import Scraper
 import ICal
 import Data.Text (Text)

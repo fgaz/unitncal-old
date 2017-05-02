@@ -9,7 +9,7 @@ import Control.Concurrent (forkIO, threadDelay)
 import Control.Monad
 import Data.Monoid
 import Data.Default.Class
-import Types
+import Types.Servable
 import qualified Config
 import Paths_unitncal
 
