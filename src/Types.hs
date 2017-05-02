@@ -6,8 +6,6 @@ import           Data.Text (Text)
 import           Data.Time (UTCTime)
 import           Data.Time.Format (ParseTime, parseTimeM, defaultTimeLocale)
 import           Text.Read (readMaybe)
-import           Data.Map.Strict
-import           Data.ByteString.Lazy (ByteString)
 
 type CourseId = Int
 type Year = Int
