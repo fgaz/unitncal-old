@@ -19,7 +19,7 @@ main = do
   putStrLn "Scraping and generation of the initial servable is deferred."
   ref <- newIORef def
   putStrLn "Forking periodic scraper..."
-  _ <- forkIO $ threadDelay Config.refreshInterval *> every Config.refreshInterval (updateServable ref)
+  _ <- forkIO $ every Config.refreshInterval $ updateServable ref
   putStrLn "Done."
   putStrLn "Running server..."
   dataDir <- getDataDir
@@ -29,7 +29,7 @@ main = do
 every :: Int -> IO a -> IO b
 every n f = forever (f *> threadDelay n)
 
-mergeServables :: Servable -> Servable -> Servable
+mergeServables zo:: Servable -> Servable -> Servable
 mergeServables _ = id
 
 updateServable :: IORef Servable -> IO ()
