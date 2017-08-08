@@ -7,6 +7,8 @@
 module Server where
 
 import Servant
+import Servant.HTML.Lucid
+import Lucid (Html)
 import Data.IORef
 import Data.Text
 import Control.Monad.Except (liftIO)
@@ -19,6 +21,7 @@ import Types
 import Types.Servable
 import ICal
 import Network.HTTP.Media ((//), (/:))
+import Generator.Html
 
 --MAYBE use servant-lucid
 data RenderedHTML
@@ -44,6 +47,11 @@ type UnitncalAPI = "course" :> Capture "courseId" CourseId :> Capture "year" Yea
               :<|> "multical" :> QueryParams "c" SubjectId :> Get '[PlainText] Text
               :<|> "data.js" :> Get '[OctetStream] ByteString
               :<|> "index.html" :> Get '[RenderedHTML] ByteString
+              :<|> "about.html" :> Get '[HTML] (Html ())
+              :<|> "instructions.html" :> Get '[HTML] (Html ())
+              :<|> "ios.html" :> Get '[HTML] (Html ())
+              :<|> "android.html" :> Get '[HTML] (Html ())
+              :<|> "multical.html" :> Get '[HTML] (Html ())
               :<|> Get '[RenderedHTML] ByteString
 
 unitncalServer' :: FilePath -> IORef Servable -> Server UnitncalAPI'
@@ -55,6 +63,11 @@ unitncalServer ref = getCourse ref
                 :<|> multical ref
                 :<|> serveDirectly servableJs
                 :<|> serveDirectly servableHtml
+                :<|> pure aboutPage
+                :<|> pure instructionsPage
+                :<|> pure iosPage
+                :<|> pure androidPage
+                :<|> pure multicalPage
                 :<|> serveDirectly servableHtml
   where serveDirectly f = f <$> liftIO (readIORef ref)
 
