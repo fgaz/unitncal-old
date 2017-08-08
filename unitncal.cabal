@@ -17,7 +17,7 @@ extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 data-files:          static/css/*.css
                    , static/js/*.js
-                   , static/*.html
+--                   , static/*.html
                    , static/screenshots/android/*.png
                    , static/screenshots/ios/*.jpg
 
